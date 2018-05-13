@@ -44,7 +44,7 @@ class Bot:
     print("received string: %s!" % update.message.text)
     chat = update.message.chat_id
     print("try get phrase!")
-    phrase = storage.phraseForKeyword(update.message.text)
+    phrase = self.data.phraseForKeyword(update.message.text)
     print("find phrase: %s!" % phrase)
     if isinstance(phrase, str) and phrase:
       bot.send_message(chat_id=update.message.chat_id, text=phrase)

@@ -154,19 +154,17 @@ class Data(object):
       print("pg error when insert new user: %s" % e.pgerror)
 
   def phraseForKeyword(self, keyword):
-    conn = self.connectToDataBase()
-    if conn is not None:
-      cur = None
+    cur = None
+    try:
+      cur = self.conn.cursor()
+    except psycopg2.Error as e:
+      print("PG Error: %s" % e.pgerror)
+
+    if cur is not None:
       try:
-        cur = conn.cursor()
+        cur.execute("""select phrase from bot_phrase where keyword=%(keyword)s""", {"keyword":keyword})
+        rows = cur.fetchall()
+        for row in rows:
+          return row[0]
       except psycopg2.Error as e:
         print("PG Error: %s" % e.pgerror)
-
-      if cur is not None:
-        try:
-          cur.execute("""select phrase from bot_phrase where keyword=%(keyword)s""", {"keyword":keyword})
-          rows = cur.fetchall()
-          for row in rows:
-            return row[0]
-        except psycopg2.Error as e:
-          print("PG Error: %s" % e.pgerror)
