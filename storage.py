@@ -112,6 +112,11 @@ class Data(object):
     except:
       pass
 
+    try:
+      cur.execute("""create table bot_phrase (keywod text NOT NULL PRIMARY KEY, phrase text);""")
+    except:
+      pass
+
   def connectToDataBase(self):
     print("ENV DATABASE_URL: %s" % os.environ['DATABASE_URL'])
     url = urlparse.urlparse(os.environ['DATABASE_URL'])
@@ -147,3 +152,19 @@ class Data(object):
       print("[storage]: new chat - %d added!" % chat_id)
     except psycopg2.Error as e:
       print("pg error when insert new user: %s" % e.pgerror)
+
+  def phraseForKeyword(self, keyword):
+    cur = None
+    try:
+      cur = self.conn.cursor()
+    except psycopg2.Error as e:
+      print("PG Error: %s" % e.pgerror)
+
+    if cur is not None:
+      try:
+        cur.execute("""select phrase from bot_phrase where keyword=%(keyword)s""", {"keyword":keyword})
+        rows = cur.fetchall()
+        for row in rows:
+          return row[0]
+      except psycopg2.Error as e:
+        print("PG Error: %s" % e.pgerror)
