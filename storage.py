@@ -130,14 +130,13 @@ class Data(object):
         host=host,
         port=port
       )
+      conn.autocommit = True
+      print("connectToDataBase OK!")
     except psycopg2.Error as e:
       print("PG connect Error: %s" % e.pgerror)
     except:
       print("Unknown error whin PG connect!")
       return None
-
-    print("connectToDataBase OK!")
-    conn.autocommit = True
     return conn
 
   def addUser(self, user, chat_id):
