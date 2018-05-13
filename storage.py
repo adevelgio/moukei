@@ -113,7 +113,7 @@ class Data(object):
       pass
 
     try:
-      cur.execute("""create table bot_phrase (keywod text NOT NULL PRIMARY KEY, phrase text);""")
+      cur.execute("""create table bot_phrase (keyword text NOT NULL PRIMARY KEY, phrase text);""")
     except:
       pass
 
