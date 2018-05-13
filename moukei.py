@@ -43,20 +43,17 @@ class Bot:
   def messageReceived(self, bot, update):
     print("received string: %s!" % update.message.text)
     chat = update.message.chat_id
-    print("try get phrase!")
     phrase = self.data.phraseForKeyword(update.message.text)
-    print("find phrase: %s!" % phrase)
     if isinstance(phrase, str) and phrase:
       bot.send_message(chat_id=update.message.chat_id, text=phrase)
-    print("continue handling...")
 
-    elif update.message.text == 'Расписание':
+    if update.message.text == 'Расписание':
       self.showShedule(bot, update)
     elif update.message.text == 'Правила':
       self.showMenuRules(bot, update)
     elif update.message.text == 'назад':
       self.showMenu0(bot, update)
-    else:
+    elif not phrase:
       try:
         bot.send_message(chat_id=chat, text="Когда-то я смогу понять, что тебе нужно... ")
         showMenu0(bot, update)
