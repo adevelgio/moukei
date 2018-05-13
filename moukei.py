@@ -41,10 +41,14 @@ class Bot:
     self.showMenu0(bot, update)
 
   def messageReceived(self, bot, update):
+    print("received string: %s!" % update.message.text)
     chat = update.message.chat_id
+    print("try get phrase!")
     phrase = storage.phraseForKeyword(update.message.text)
-    if isinstance(phrase, str) and not phrase:
+    print("find phrase: %s!" % phrase)
+    if isinstance(phrase, str) and phrase:
       bot.send_message(chat_id=update.message.chat_id, text=phrase)
+    print("continue handling...")
 
     if update.message.text == 'Штрафбат':
       self.showJail(bot, update)
