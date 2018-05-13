@@ -65,6 +65,7 @@ class Bot:
     else:
       try:
         bot.send_message(chat_id=chat, text="Когда-то я смогу понять, что тебе нужно... ")
+        showMenu0(bot, update)
       except:
         pass
  
